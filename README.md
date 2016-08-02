@@ -48,5 +48,4 @@ docker node inspect --pretty node2
 
 docker node update --availability active node2
 ```
-
 Have fun!
