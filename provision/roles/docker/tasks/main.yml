@@ -1,9 +1,9 @@
 ---
 
-- name: Fail if OS distro is not Ubuntu 14.04
-  fail: 
-    msg="The role is designed only for Ubuntu {{ os_version }}"
-  failed_when: "ansible_distribution_version != '{{ os_version }}'" 
+- name: Fail if OS distro is not the configured distro
+  fail:
+    msg="The role is designed only for {{ os_distribution }}"
+  failed_when: "ansible_distribution != '{{ os_distribution }}'"
 
 - name: Install required packages for docker 
   apt: name={{ item }} state=present update_cache=yes

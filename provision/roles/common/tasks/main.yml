@@ -5,10 +5,10 @@
     msg="The role is designed only for {{ os_distribution }}" 
   failed_when: "ansible_distribution != '{{ os_distribution }}'"
 
-- name: Fail if OS distro version is not the configured distro and version
-  fail:
-    msg="The role is designed only for {{ os_distribution }} {{ os_version }}"
-  failed_when: "ansible_distribution_version != '{{ os_version }}'"
+# - name: Fail if OS distro version is not the configured distro and version
+#   fail:
+#     msg="The role is designed only for {{ os_distribution }} {{ os_version }}"
+#   failed_when: "ansible_distribution_version != '{{ os_version }}'"
 
 - name: Install some common software
   apt: name={{ item }} state=present update_cache=yes
