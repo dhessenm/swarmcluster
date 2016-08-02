@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+
+  vars:
+  - os_distribution: Ubuntu
+  - os_version: 14.04
+
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+
+  roles:
+    - docker
+
+

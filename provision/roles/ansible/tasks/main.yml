@@ -1,0 +1,11 @@
+---
+
+- name: add ansible repository
+  apt_repository: repo='ppa:ansible/ansible' state=present
+
+- name: install ansible
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - ansible
+
+

@@ -1,0 +1,9 @@
+---
+# aws_cli_user: '{{ ansible_ssh_user }}'
+aws_cli_user: vagrant
+aws_cli_user_home: /home/vagrant
+aws_output_format: 'json'
+aws_region: 'eu-central-1'
+aws_access_key_id: 'YOUR_ACCESS_KEY_ID'
+aws_secret_access_key: 'YOUR_SECRET_ACCESS_KEY'
+

@@ -1,0 +1,70 @@
+---
+
+- name: Fail if OS distro is not Ubuntu 14.04
+  fail: 
+    msg="The role is designed only for Ubuntu {{ os_version }}"
+  failed_when: "ansible_distribution_version != '{{ os_version }}'" 
+
+- name: Install required packages for docker 
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+
+- name: Add docker apt repository key 
+  apt_key: 
+    keyserver=hkp://p80.pool.sks-keyservers.net:80 
+    id=58118E89F3A912897C070ADBF76221572C52609D
+    state=present
+
+- name: Copy docker.list
+  template:
+    src=docker.list
+    dest=/etc/apt/sources.list.d/docker.list
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Purge lxc-docker
+  apt: pkg=lxc-docker state=removed
+
+- name: Install apparmor
+  apt: name=apparmor state=present
+
+- name: Install docker-engine
+  apt: name=docker-engine state=present
+
+- name: Add group docker
+  group: name=docker state=present
+
+- name: Add group docker to user vagrant
+  user: name=vagrant groups=docker append=yes
+
+- name: Configure docker
+  template:
+    src=default_docker.j2
+    dest=/etc/default/docker
+    mode=0644
+    owner=root
+    group=root
+  notify: restart docker 
+
+- name: Starte docker daemon
+  service: name=docker state=restarted
+
+
+- name: Install python-setuptools
+  action: "{{ ansible_pkg_mgr }} pkg={{ item }} state=present"
+  with_items:
+    - python-setuptools
+
+- name: Install python pip
+  easy_install:
+    name: pip
+
+- name: Install docker compose
+  pip:
+    name: docker-compose
+#    version: "{{ docker_compose_version if docker_compose_version else omit }}"
+    state: present
+
