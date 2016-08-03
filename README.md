@@ -1,20 +1,31 @@
 # swarmcluster
 Provisioning Docker swarm cluster with vagrant
 Creates three hosts with Docker daemon
-* master1
-* node1
-* node2
+* swarm-manager1
+* swarm-worker1
+* swarm-worker2
 
-Currently you have to configure swarm manually, see [Docker swarm tutorial]( https://docs.docker.com/engine/swarm/swarm-tutorial/)
+## Installation
+Bring up vagrants hosts
+```vagrant up```
 
-## Required
-* Vagrant
-* Ubuntu 14.04 vagrant box (e.g. bento/ubuntu-14.04)
-* Ansible
+Check if all vagrants hosts are running
+
+```vagrant status```
+
+Login into swarm-manager1
+
+```vagrant ssh swarm-manager1```
+
+Provision Docker swarm cluster with ansible playbook
+
+```
+cd /vagrant/Provision
+ansible-playbook all.yml
+```
 
 ## swarm commands
-```
-on master: docker swarm init --advertise-addr <IP master1>
+on manager node: docker swarm init --advertise-addr <IP master1>
 on master: docker swarm join-token worker
 
 on worker: docker swarm join ...
@@ -35,7 +46,7 @@ docker service scale helloworld=5
 
 docker service rm helloworld
 
-# Drain a node:
+### Drain a node:
 docker node ls
 docker service create --replicas 3 --name redis --update-delay 10s redis:3.0.6
 docker service ps redis
@@ -47,5 +58,12 @@ docker service ps redis
 docker node inspect --pretty node2
 
 docker node update --availability active node2
-```
+
+# Links
+[Docker swarm tutorial]( https://docs.docker.com/engine/swarm/swarm-tutorial/)
+
+[Docker blog docker 1.12 build in orchestration
+](https://blog.docker.com/2016/06/docker-1-12-built-in-orchestration/)
+
+
 Have fun!
