@@ -1,6 +1,9 @@
 # swarmcluster
-Provisioning Docker swarm cluster with vagrant
-Creates three hosts with Docker daemon
+Provisioning Docker swarm cluster with vagrant.
+
+Only with docker version > 1.12
+
+Creates three nodes:
 * swarm-manager1
 * swarm-worker1
 * swarm-worker2
