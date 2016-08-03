@@ -9,11 +9,11 @@ Creates three nodes:
 * swarm-worker2
 
 ## Installation
-Bring up vagrants hosts
+Bring up vagrant hosts
 
 ```vagrant up```
 
-Check if all vagrants hosts are running
+Check if all vagrant hosts are running
 
 ```vagrant status```
 
