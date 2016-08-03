@@ -1,6 +1,7 @@
 ---
-- hosts: all
+- hosts: swarm-cluster
   become: yes
+  serial: 1
 
   vars:
   - os_distribution: Ubuntu
@@ -12,6 +13,7 @@
 
   roles:
     - common
-    - ansible
     - docker
-
+    - swarm-manager
+    - swarm-worker
+   

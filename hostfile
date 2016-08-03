@@ -1,0 +1,4 @@
+192.168.165.211		swarm-manager1
+192.168.165.212 	swarm-manager2
+192.168.165.221 	swarm-worker1
+192.168.165.222 	swarm-worker2

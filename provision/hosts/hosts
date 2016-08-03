@@ -1,0 +1,14 @@
+[swarm-cluster:children]
+swarm-manager
+swarm-worker
+
+[swarm-manager]
+swarm-manager1
+# swarm-manager2
+
+[swarm-worker]
+swarm-worker1
+swarm-worker2
+
+
+

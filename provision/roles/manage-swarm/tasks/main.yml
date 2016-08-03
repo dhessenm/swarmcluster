@@ -1,0 +1,48 @@
+---
+
+# Initialize swarm cluster and add manager nodes
+# ----------------------------------------------
+- name: Initalize swarm cluster 
+  command: docker swarm init --advertise-addr {{ swarm_manager_ip }}
+  when: swarm_node_type == "manager_init"
+  tags: 
+   - init
+
+- name: Get swarm token for node
+  command: docker swarm join-token {{ swarm_node_type }} -q
+  register: swarm_join_cmd
+  delegate_to: swarm-manager1
+  when: swarm_node_type == "manager" or swarm_node_type == "worker"
+  tags:
+    - join
+
+- name: Join node to swarm manager
+  command: docker swarm join --token {{ swarm_join_cmd.stdout }} {{ swarm_manager_ip }}:2377
+  when: swarm_node_type == "manager" or swarm_node_type == "worker"
+  ignore_errors: yes
+  tags:
+    - join
+
+# Leave cluster 
+# ----------------------------------------------
+
+- name: Leave swarm cluster
+  command: docker swarm leave --force
+  ignore_errors: yes
+  tags:
+    - leave
+
+# Swam State  - only on manager node
+# ----------------------------------------------
+
+- name: Get swarm cluster state
+  command: docker node ls
+  register: r_docker_node_ls
+  ignore_errors: yes
+  tags:
+    - status
+
+- debug: msg="{{ r_docker_node_ls.stdout_lines }}"
+  tags:
+    - status
+

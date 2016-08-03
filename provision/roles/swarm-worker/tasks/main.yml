@@ -1,0 +1,15 @@
+---
+
+# Add worker nodes to swarm cluster
+# ----------------------------------------------
+- name: Get swarm token for worker
+  command: docker swarm join-token worker -q
+  register: swarm_join_cmd
+  delegate_to: swarm-manager1
+  when: swarm_node_type == "worker"
+
+- name: Join worker to swarm manager
+  command: docker swarm join --token {{ swarm_join_cmd.stdout }} {{ swarm_manager_ip }}:2377
+  when: swarm_node_type == "worker"
+  ignore_errors: yes
+

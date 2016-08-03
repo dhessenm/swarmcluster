@@ -1,64 +1,100 @@
 # -*- mode: ruby -*-
-
 # vi: set ft=ruby :
 
-boxes = [
-    {
-        :name => "master1",
-        :mem => "2048",
-        :cpu => "1"
-    },
-    {
-        :name => "node1",
-        :mem => "2048",
-        :cpu => "1"
-    },
-    {
-        :name => "node2",
-        :mem => "2048",
-        :cpu => "1"
-    }
-]
+# Defaults, variables
+# -------------------
+MANAGER_MEMORY_SIZE = 1024
+NODE_MEMORY_SIZE = 1024
 
+# Configure
+# ---------
 Vagrant.configure(2) do |config|
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
+  # config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.box = "ubuntu/trusty64"
 
-  # load vagrant-cachier if available, reduce some data traffic and time too ...
-  if Vagrant.has_plugin?("vagrant-cachier")
-    config.cache.scope = :box
-    config.cache.auto_detect = false
-    config.cache.enable :apt
-    config.cache.enable :gem
-  end
-
-  config.vm.provider "vmware_fusion" do |v, override|
+  config.vm.provider "vmware_fusion" do |vmware, override|
     override.vm.box = "dh/ubuntu-14.04.2"
   end
 
-  # Turn off shared folders
-  # config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+  config.vm.provider "virtualbox" do |v, override|
+    v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+  end
+  
+  # global bootstrap
+  config.vm.provision :shell, path: "bootstrap.sh" 
 
-  boxes.each do |opts|
-    config.vm.define opts[:name] do |config|
-      config.vm.hostname = opts[:name]
+  # BEGIN swarm-manager old
+  # -----------------------
+  # config.vm.define "swarm-manager" do |sm|
+    # sm.vm.hostname = "swarm-manager"
+    # sm.vm.provision :shell, path: "bootstrap_ansible.sh"
+    # sm.vm.network "private_network", ip: "192.168.165.211"
+    # sm.vm.provider "virtualbox" do |v|
+      # v.memory = MANAGER_MEMORY_SIZE
+      # v.cpus = 1
+      # v.gui = false
+    # end
+    # sm.vm.provider "vmware_fusion" do |vmware|
+      # vmware.vmx["memsize"] = MANAGER_MEMORY_SIZE
+      # vmware.vmx["numvcpus"] = 1
+      # vmware.gui = false
+    # end
+  # end
+  # END swarm-manager old
+  # ---------------------
 
-      config.vm.provider "vmware_fusion" do |v|
-        v.vmx["memsize"] = opts[:mem]
-        v.vmx["numvcpus"] = opts[:cpu]
+
+  # BEGIN swarm-manager new
+  # -----------------------
+  (1..1).each do |i|
+    config.vm.define "swarm-manager#{i}" do |sm|
+      sm.vm.hostname = "swarm-manager#{i}"
+
+      if sm.vm.hostname == "swarm-manager1"
+        sm.vm.provision :shell, path: "bootstrap_ansible.sh" 
       end
 
-      config.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--memory", opts[:mem]]
-        v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
+      sm.vm.network "private_network", ip: "192.168.165.21#{i}"
+      sm.vm.provider "virtualbox" do |v|
+        v.memory = MANAGER_MEMORY_SIZE
+        v.cpus = 1
+        v.gui = false
       end
-
-      # config.vm.network :private_network, ip: opts[:eth1]
-      config.vm.provision :ansible do |ansible|
-         ansible.verbose = "v"
-         ansible.playbook = "provision/swarmcluster.yml"
+      sm.vm.provider "vmware_fusion" do |vmware|
+        vmware.vmx["memsize"] = MANAGER_MEMORY_SIZE
+        vmware.vmx["numvcpus"] = 1
+        vmware.gui = false
       end
     end
   end
+  # END swarm-manager new
+  # ---------------------
+
+  # BEGIN swarm-worker
+  # -----------------
+  (1..2).each do |i|
+    config.vm.define "swarm-worker#{i}" do |sn|
+      sn.vm.hostname = "swarm-worker#{i}"
+      sn.vm.network "private_network", ip: "192.168.165.22#{i}"
+      sn.vm.provider "virtualbox" do |v|
+        v.memory = NODE_MEMORY_SIZE
+        v.cpus = 1
+        v.gui = false
+      end
+      sn.vm.provider "vmware_fusion" do |vmware|
+        vmware.vmx["memsize"] = NODE_MEMORY_SIZE
+        vmware.vmx["numvcpus"] = 1
+        vmware.gui = false
+      end
+    end
+  end
+  # END swarm-worker
+  # ---------------
+
 end
 

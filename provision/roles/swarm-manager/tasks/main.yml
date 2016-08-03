@@ -1,0 +1,20 @@
+---
+
+# Initialize swarm cluster and add manager nodes
+# ----------------------------------------------
+- name: Initalize swarm cluster 
+  command: docker swarm init --advertise-addr {{ swarm_manager_ip }}
+  when: swarm_node_type == "manager_init"
+  ignore_errors: yes
+
+- name: Get swarm token for manager
+  command: docker swarm join-token manager -q
+  register: swarm_join_cmd
+  delegate_to: swarm-manager1
+  when: swarm_node_type == "manager"
+
+- name: Join manager to swarm manager
+  command: docker swarm join --token {{ swarm_join_cmd.stdout }} {{ swarm_manager_ip }}:2377
+  when: swarm_node_type == "manager"
+  ignore_errors: yes
+

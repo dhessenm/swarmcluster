@@ -1,0 +1,8 @@
+---
+- hosts: swarm-cluster
+  become: yes
+  serial: 1
+
+  roles:
+    - manage-swarm
+   

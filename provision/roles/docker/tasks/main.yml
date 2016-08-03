@@ -47,11 +47,10 @@
     mode=0644
     owner=root
     group=root
-  notify: restart docker 
+  notify: Restart docker 
 
 - name: Starte docker daemon
   service: name=docker state=restarted
-
 
 - name: Install python-setuptools
   action: "{{ ansible_pkg_mgr }} pkg={{ item }} state=present"
