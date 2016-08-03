@@ -7,6 +7,7 @@ Creates three hosts with Docker daemon
 
 ## Installation
 Bring up vagrants hosts
+
 ```vagrant up```
 
 Check if all vagrants hosts are running
