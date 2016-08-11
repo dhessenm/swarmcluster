@@ -1,10 +1,5 @@
 ---
 
-- name: Install some common software
-  apt: name={{ item }} state=present update_cache=yes
-  with_items:
-    - curl
-
 - name: Configure the proxy in shell.
   lineinfile:
     dest: /etc/environment
@@ -30,10 +25,10 @@
     - { protocol: 'Acquire::https::proxy' }
   when: proxy is defined and no_proxy is defined
 
-- name: JQ is present
-  apt:
-    name: jq
-    force: yes
-
+- name: Install some common software
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - curl
+    - jq
 
 
