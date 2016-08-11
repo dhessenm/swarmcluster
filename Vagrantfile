@@ -26,6 +26,7 @@ Vagrant.configure(2) do |config|
   end
   
   # global bootstrap
+  # config.vm.provision :shell, path: "bootstrap.sh", env: {"PROXY" => "http://wwwproxy.bahn-net.db.de:8080"}
   config.vm.provision :shell, path: "bootstrap.sh" 
 
   # BEGIN swarm-manager old
@@ -57,8 +58,6 @@ Vagrant.configure(2) do |config|
 
       if sm.vm.hostname == "swarm-manager1"
         sm.vm.provision :shell, path: "bootstrap_ansible.sh"
-        # sm.vm.provision :shell, path: "bootstrap_ansible.sh", env: {"PROXY" => "http://wwwproxy.bahn-net.db.de:8080"}
-
       end
 
       sm.vm.network "private_network", ip: "192.168.165.21#{i}"
