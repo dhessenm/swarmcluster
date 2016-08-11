@@ -61,6 +61,7 @@ Vagrant.configure(2) do |config|
       end
 
       sm.vm.network "private_network", ip: "192.168.165.21#{i}"
+      sm.vm.network :forwarded_port, guest: 8080, host: "808#{i}"
       sm.vm.provider "virtualbox" do |v|
         v.memory = MANAGER_MEMORY_SIZE
         v.cpus = 1
