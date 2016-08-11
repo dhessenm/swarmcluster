@@ -1,17 +1,39 @@
 ---
 
-- name: Fail if OS distro is not the configured distro
-  fail:
-    msg="The role is designed only for {{ os_distribution }}" 
-  failed_when: "ansible_distribution != '{{ os_distribution }}'"
-
-# - name: Fail if OS distro version is not the configured distro and version
-#   fail:
-#     msg="The role is designed only for {{ os_distribution }} {{ os_version }}"
-#   failed_when: "ansible_distribution_version != '{{ os_version }}'"
-
 - name: Install some common software
   apt: name={{ item }} state=present update_cache=yes
   with_items:
     - curl
+
+- name: Configure the proxy in shell.
+  lineinfile:
+    dest: /etc/environment
+    regexp: '^{{ item.regexp }}'
+    line: '{{ item.regexp }}={{ item.value }}'
+  with_items:
+    - { regexp: 'http_proxy', value:  '{{ proxy }}' }
+    - { regexp: 'HTTP_PROXY', value:  '{{ proxy }}' }
+    - { regexp: 'https_proxy', value: '{{ proxy }}' }
+    - { regexp: 'HTTPS_PROXY', value: '{{ proxy }}' }
+    - { regexp: 'no_proxy', value: '{{ no_proxy }}' }
+    - { regexp: 'proxy', value: '{{ proxy }}'}
+  when: proxy is defined and no_proxy is defined
+
+- name: Configure the proxy for package manager
+  lineinfile:
+    dest: /etc/apt/apt.conf
+    regexp: '^{{ item.protocol }}'
+    line: '{{ item.protocol }} "{{ proxy }}";'
+    create: yes
+  with_items:
+    - { protocol: 'Acquire::http::proxy' }
+    - { protocol: 'Acquire::https::proxy' }
+  when: proxy is defined and no_proxy is defined
+
+- name: JQ is present
+  apt:
+    name: jq
+    force: yes
+
+
 
