@@ -2,6 +2,7 @@
 
 VAGRANT_SSH_KEY=/vagrant/master_id_rsa.pub
 
+
 echo "Update Cache ..."
 apt-get update
 
@@ -14,6 +15,7 @@ fi
 
 echo "create host file entries..."
 cat /vagrant/hostfile >> /etc/hosts
+
 
 
 
