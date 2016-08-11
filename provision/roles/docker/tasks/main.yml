@@ -73,7 +73,7 @@
     - { regexp: 'export HTTP_PROXY', value:  '{{ proxy }}' }
     - { regexp: 'export HTTPS_PROXY', value: '{{ proxy }}' }
     - { regexp: 'export NO_PROXY', value: '{{ no_proxy }}' }
-  when: proxy is defined and no_proxy is defined
+  when: use_proxy
 
 - name: Python-setuptools are present
   action: "{{ ansible_pkg_mgr }} pkg={{ item }} state=present"

@@ -12,7 +12,7 @@
     - { regexp: 'HTTPS_PROXY', value: '{{ proxy }}' }
     - { regexp: 'no_proxy', value: '{{ no_proxy }}' }
     - { regexp: 'proxy', value: '{{ proxy }}'}
-  when: proxy is defined and no_proxy is defined
+  when: use_proxy
 
 - name: Configure the proxy for package manager
   lineinfile:
@@ -23,7 +23,7 @@
   with_items:
     - { protocol: 'Acquire::http::proxy' }
     - { protocol: 'Acquire::https::proxy' }
-  when: proxy is defined and no_proxy is defined
+  when: use_proxy
 
 - name: Install some common software
   apt: name={{ item }} state=present update_cache=yes

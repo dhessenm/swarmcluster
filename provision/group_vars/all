@@ -1,12 +1,16 @@
 # provider [aws, vagrant_dbs, vagrant_private ...]
-infrastructure_provider: aws
+infrastructure_provider: vagrant
+
+use_proxy: false
 
 # ansible_ssh_private_key_file: /home/vagrant/.ssh/id_rsa
 
 # swarm_manager_ip: 192.168.165.211
 swarm_manager_ip: 10.43.120.132
 
-proxy: http://webproxy.aws.db.de:8080
-no_proxy: 127.0.0.1,localhost,*.db.de,.db.de
+# proxy: http://webproxy.aws.db.de:8080
+# no_proxy: 127.0.0.1,localhost,*.db.de,.db.de
+proxy: ""
+no_proxy: ""
 
 
