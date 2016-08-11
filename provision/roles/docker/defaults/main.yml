@@ -1,0 +1,18 @@
+docker_extra: ""
+
+centos_files: [
+  { src: "docker.centos.repo", dest: "/etc/yum.repos.d/docker.repo" },
+  { src: "docker.centos.service", dest: "/lib/systemd/system/docker.service" }
+]
+
+certificate_root: DB-Systel-Root-CA2015.crt
+certificate_web: DB-Systel-Web-CA2015.crt
+
+certificates : [
+  { dir: "dockerhub-abn.noncd.rz.db.de", value: "{{ certificate_root }}"},
+  { dir: "dockerhub-abn.noncd.rz.db.de", value: "{{ certificate_web }}"},
+  { dir: "dockerhub-gui-abn.noncd.rz.db.de", value: "{{ certificate_root }}"},
+  { dir: "dockerhub-gui-abn.noncd.rz.db.de", value: "{{ certificate_web }}"},
+  { dir: "dockerhub.noncd.rz.db.de", value: "{{ certificate_root }}"},
+  { dir: "dockerhub.noncd.rz.db.de", value: "{{ certificate_web }}"}
+]

@@ -11,6 +11,7 @@
       apt: update_cache=yes
 
   roles:
+    - common
     - docker
 
 
