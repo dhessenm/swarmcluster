@@ -1,0 +1,32 @@
+---
+
+# play 1
+- name: Installing and configuring Docker 
+  hosts: all
+  become: yes
+  serial: 1
+
+  vars: 
+  - os_distribution: Ubuntu
+  - os_version: 14.04
+
+  roles:
+    - { role: common, tags: ["docker"] }
+    - { role: docker, tags: ["docker"] }
+
+# play 2
+- name: Setting up Rancher Server
+  hosts: "rancher"
+  become: yes
+  roles:
+    - { role: rancher, tags: ["rancher"] }
+
+# play 3
+- name: Register Rancher Hosts
+  hosts: "rancher_nodes"
+  become: yes
+  serial: 1
+  roles:
+    - { role: rancher_reg, tags: ["rancher_reg"] }
+
+

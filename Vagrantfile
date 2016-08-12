@@ -4,7 +4,7 @@
 # Defaults, variables
 # -------------------
 MANAGER_MEMORY_SIZE = 1024
-NODE_MEMORY_SIZE = 1024
+NODE_MEMORY_SIZE = 2048
 
 # Configure
 # ---------
@@ -83,6 +83,7 @@ Vagrant.configure(2) do |config|
     config.vm.define "swarm-worker#{i}" do |sn|
       sn.vm.hostname = "swarm-worker#{i}"
       sn.vm.network "private_network", ip: "192.168.165.22#{i}"
+      sn.vm.network :forwarded_port, guest: 8080, host: "908#{i}"
       sn.vm.provider "virtualbox" do |v|
         v.memory = NODE_MEMORY_SIZE
         v.cpus = 1
