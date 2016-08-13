@@ -1,9 +1,8 @@
 # Rancher server
-rancher_name: rancher_server
 rancher_server: 192.168.165.211
 rancher_port: 8080
 
 # Rancher agent
 rancher_agent_version: 1.0.2
-rancher_agent_name: rancher_agent
+rancher_agent_name: ranger_agent
 

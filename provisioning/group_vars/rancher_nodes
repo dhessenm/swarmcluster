@@ -1,5 +1,0 @@
-rancher_server: 192.168.165.211
-rancher_agent_version: 1.0.2
-rancher_name: ranger_server
-rancher_port: 8080
-
