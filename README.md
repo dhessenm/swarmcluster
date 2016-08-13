@@ -21,10 +21,16 @@ Login into swarm-manager1
 
 ```vagrant ssh swarm-manager1```
 
-Provision Docker swarm cluster with ansible playbook
-
+## Provision Docker swarm cluster with ansible playbook
+First resolve some ansible roles dependencies
 ```
-cd /vagrant/Provision
+cd /vagrant/provision
+ansible-galaxy install -r requirements.yml -p ./roles
+```
+
+Then run the ansible playbook
+```
+cd /vagrant/provision
 ansible-playbook all.yml
 ```
 
