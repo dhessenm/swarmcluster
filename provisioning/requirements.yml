@@ -2,3 +2,11 @@
   name: dbs_proxyconf
   version: master
 
+- src: https://github.com/dhessenm/dbs_common
+  name: dbs_common
+  version: master
+
+- src: https://github.com/dhessenm/dbs_docker
+  name: dbs_docker
+  version: master
+
