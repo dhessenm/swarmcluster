@@ -11,22 +11,21 @@
   - os_version: 14.04
 
   roles:
-    - { role: common, tags: ["docker"] }
-    - { role: docker, tags: ["docker"] }
+    - { role: dbs_docker, tags: ["docker"] }
 
 # play 2
-- name: Setting up Rancher Server
-  hosts: "rancher"
+- name: Setting up Rancher server
+  hosts: "rancher_server"
   become: yes
   roles:
-    - { role: rancher, tags: ["rancher"] }
+    - { role: dbs_rancher_server, tags: ["rancher_server"] }
 
 # play 3
 - name: Register Rancher Hosts
-  hosts: "rancher_nodes"
+  hosts: "rancher_node"
   become: yes
   serial: 1
   roles:
-    - { role: rancher_reg, tags: ["rancher_reg"] }
+    - { role: dbs_rancher_agent, tags: ["rancher_agent"] }
 
 

@@ -10,10 +10,10 @@ swarm-manager1
 swarm-worker1
 swarm-worker2
 
-[rancher]
+[rancher_server]
 swarm-manager1
 
-[rancher_nodes]
+[rancher_node]
 swarm-worker1
 swarm-worker2
 
