@@ -20,13 +20,13 @@ echo "Installing Ansible..."
 apt-get install -y software-properties-common
 apt-add-repository ppa:ansible/ansible
 apt-get update
-apt-get install -y ansible
+apt-get install -y ansible git
 
 echo "Copy inventory file to default location (/etc/ansible/hosts)"
-[ -f /vagrant/provision/hosts/hosts ] && cp /vagrant/provision/hosts/hosts /etc/ansible/hosts
+[ -f /vagrant/provisioning/hosts/hosts ] && cp /vagrant/provisioning/hosts/hosts /etc/ansible/hosts
 
 echo "Copy ansible.cfg to default location (/etc/ansible/ansible.cfg)"
-[ -f /vagrant/provision/ansible.cfg ] && cp /vagrant/provision/ansible.cfg /etc/ansible/ansible.cfg
+[ -f /vagrant/provisioning/ansible.cfg ] && cp /vagrant/provisioning/ansible.cfg /etc/ansible/ansible.cfg
 
 
 if [[ ! -f $VAGRANT_SSH_KEY ]]; then

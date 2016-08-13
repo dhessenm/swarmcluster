@@ -5,6 +5,8 @@
 # -------------------
 MANAGER_MEMORY_SIZE = 1024
 NODE_MEMORY_SIZE = 2048
+ANZAHL_SWARM_MANAGER = 1
+ANZAHL_SWARM_WORKER = 1
 
 # Configure
 # ---------
@@ -52,7 +54,7 @@ Vagrant.configure(2) do |config|
 
   # BEGIN swarm-manager new
   # -----------------------
-  (1..1).each do |i|
+  (1..ANZAHL_SWARM_MANAGER).each do |i|
     config.vm.define "swarm-manager#{i}" do |sm|
       sm.vm.hostname = "swarm-manager#{i}"
 
@@ -79,7 +81,7 @@ Vagrant.configure(2) do |config|
 
   # BEGIN swarm-worker
   # -----------------
-  (1..2).each do |i|
+  (1..ANZAHL_SWARM_WORKER).each do |i|
     config.vm.define "swarm-worker#{i}" do |sn|
       sn.vm.hostname = "swarm-worker#{i}"
       sn.vm.network "private_network", ip: "192.168.165.22#{i}"
