@@ -10,3 +10,11 @@
   name: dbs_docker
   version: master
 
+- src: https://github.com/dhessenm/dbs_rancher_server
+  name: dbs_rancher_server
+  version: master
+
+- src: https://github.com/dhessenm/dbs_rancher_node
+  name: dbs_rancher_node
+  version: master
+

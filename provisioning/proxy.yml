@@ -16,7 +16,7 @@
       delegate_to: localhost
 
   roles:
-    - { role: dbs_proxyconf, tags: ["proxyconf"] }
+    - { role: dbs_ansible, tags: ["ansible"] }
 
 #   tasks:
 #    - name: Test
