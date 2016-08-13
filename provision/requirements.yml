@@ -1,0 +1,4 @@
+- src: https://github.com/dhessenm/dbs_proxyconf
+  name: proxyconf
+  version: master
+

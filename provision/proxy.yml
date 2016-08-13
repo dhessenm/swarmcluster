@@ -1,0 +1,35 @@
+---
+
+# pretask
+
+
+
+# play 1
+- name: Configuring HTTP Proxy settings on host
+  hosts: all
+  become: yes
+  serial: 1
+
+  pre_tasks:
+    - name: pretask test ...
+      shell: echo 'hello'
+      delegate_to: localhost
+
+  roles:
+    - { role: dbs_proxyconf, tags: ["proxyconf"] }
+
+#   tasks:
+#    - name: Test
+#      command: uptime
+
+- name: some tasks later ...
+  hosts: all
+  become: yes
+  serial: 1
+  tasks:
+    - name: Test
+      command: uptime
+
+
+
+
