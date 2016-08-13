@@ -21,7 +21,7 @@
     - { role: dbs_rancher_server, tags: ["rancher_server"] }
 
 # play 3
-- name: Register Rancher Hosts
+- name: Register Rancher nodes
   hosts: "rancher_node"
   become: yes
   serial: 1
