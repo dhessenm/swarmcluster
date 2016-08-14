@@ -1,0 +1,35 @@
+localhost
+
+# 10.43.120.161 ansible_ssh_private_key_file=/home/ubuntu/.ssh/dh_swarm.pem
+10.43.120.161 
+
+# Swarm
+# ------------------------------------------------------------
+[swarm-cluster:children]
+swarm-manager
+swarm-worker
+
+[swarm-manager]
+swarm-manager1
+# swarm-manager2
+
+[swarm-worker]
+swarm-worker1
+swarm-worker2
+
+# Rancher
+# ------------------------------------------------------------
+[rancher:children]
+rancher_server
+rancher_node
+
+[rancher_server]
+swarm-manager1
+
+[rancher_node]
+swarm-worker1
+swarm-worker2
+
+
+
+

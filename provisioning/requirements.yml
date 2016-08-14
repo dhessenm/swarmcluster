@@ -18,3 +18,7 @@
   name: dbs_rancher_node
   version: master
 
+- src: https://github.com/dhessenm/dbs_awsclient
+  name: dbs_awsclient
+  version: master
+

@@ -1,16 +1,10 @@
 ---
-- hosts: all
+
+# with proxy settings, use_proxy: true
+- name: Install AWS client
+  hosts: "all"
   become: yes
-
-  vars:
-  - os_distribution: Ubuntu
-  - os_version: 14.04
-
-  tasks:
-    - name: update apt cache
-      apt: update_cache=yes
-
   roles:
-    - awsclient
-
+    - { role: dbs_awsclient, tags: ["awsclient"], when: use_proxy, environment: [http_proxy: "{{ proxy }}", https_proxy: "{{ proxy }}"] }
+    - { role: dbs_awsclient, tags: ["awsclient"], when: not use_proxy }
 

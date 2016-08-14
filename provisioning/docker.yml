@@ -1,13 +1,10 @@
 ---
-- hosts: all
+
+# with proxy settings, use_proxy: true
+- name: Install Docker engine
+  hosts: "all"
   become: yes
-  serial: 1
-
-  tasks:
-    - name: update apt cache
-      apt: update_cache=yes
-
   roles:
-    - dbs_docker
-
+    - { role: dbs_docker, tags: ["awsclient"], when: use_proxy, environment: [http_proxy: "{{ proxy }}", https_proxy: "{{ proxy }}"] }
+    - { role: dbs_docker, tags: ["awsclient"], when: not use_proxy }
 
