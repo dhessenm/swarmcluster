@@ -2,7 +2,7 @@
 
 # play 1
 - name: Installing and configuring Docker 
-  hosts: all
+  hosts: rancher
   become: yes
   serial: 1
 

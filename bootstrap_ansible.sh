@@ -23,7 +23,7 @@ apt-get update
 apt-get install -y ansible git
 
 echo "Copy inventory file to default location (/etc/ansible/hosts)"
-[ -f /vagrant/provisioning/hosts/hosts ] && cp /vagrant/provisioning/hosts/hosts /etc/ansible/hosts
+[ -f /vagrant/provisioning/environments/vagrant ] && cp /vagrant/provisioning/environments/vagrant /etc/ansible/hosts
 
 echo "Copy ansible.cfg to default location (/etc/ansible/ansible.cfg)"
 [ -f /vagrant/provisioning/ansible.cfg ] && cp /vagrant/provisioning/ansible.cfg /etc/ansible/ansible.cfg
