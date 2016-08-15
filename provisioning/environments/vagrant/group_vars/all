@@ -1,0 +1,34 @@
+# some global vars
+# -----------------------------------------------------------
+
+# provider [aws, vagrant_dbs, vagrant_private ...]
+infrastructure_provider: vagrant
+
+# SSH key 
+# ansible_ssh_private_key_file: /home/vagrant/.ssh/id_rsa
+
+# use proxy and proxy setting
+# roles: dbs_proxyconf, dbs_docker
+# -----------------------------------------------------------
+use_proxy: false
+proxy: http://webproxy.aws.db.de:8080
+no_proxy: 127.0.0.1,localhost,*.db.de,.db.de
+
+# Variables for role dbs_awsclient
+# -----------------------------------------------------------
+aws_cli_user: vagrant
+aws_cli_user_home: /home/vagrant
+aws_output_format: 'json'
+aws_region: 'eu-central-1'
+aws_access_key_id: 'YOUR_ACCESS_KEY_ID'
+aws_secret_access_key: 'YOUR_SECRET_ACCESS_KEY'
+
+# Variables for role dbs_swarm
+# -----------------------------------------------------------
+# swarm_manager_ip: 10.43.120.132
+swarm_manager_ip: 192.168.165.211
+
+# Variables for role dbs_rancher_server, dbs_rancher_node
+# -----------------------------------------------------------
+
+
